@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600;700;900&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+    font-family: 'Prompt', sans-serif;
+    overflow:hidden;
+    height:100vh;
+    color:#333;
+    /* ใช้ภาพพื้นหลังใหม่ที่คุณส่งมา */
+    background-image: url('Gemini_Generated_Image_xd57g6xd57g6xd57.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.header{
+    height:118px;
+    padding:18px 34px;
+    display:flex;
+    align-items:center;
+    position:relative;
+    z-index:5;
+}
+
+.client-line{font-size:38px;font-weight:700;color:#f97316;line-height:1.2; display: inline-block;}
+.first-line{font-size:58px;font-weight:900;color:#1e3a8a;line-height:1.1;}
+
+.main{
+    display:flex;
+    height:calc(100vh - 118px);
+    padding:0 34px 34px;
+    gap:28px;
+    position:relative;
+    z-index:2;
+}
+
+.sidebar{
+    width:330px;
+    border-radius:28px;
+    overflow:hidden;
+    background:rgba(255,255,255,0.9);
+    border:3px solid #f97316;
+    box-shadow:0 15px 35px rgba(30,58,138,0.1);
+    backdrop-filter:blur(6px);
+    display:flex;
+    flex-direction:column;
+}
+
+.out-header{
+    background:#1e3a8a;
+    color:#fff;
+    padding:16px;
+    text-align:center;
+    font-size:36px;
+    font-weight:700;
+}
+
+.out-list{
+    flex:1;
+    overflow-y:auto;
+    background:#ffffff;
+}
+
+.out-item{
+    display:flex;
+    align-items:center;
+    gap:18px;
+    padding:12px 20px;
+    border-bottom:1px solid rgba(0,0,0,.05);
+    font-size:24px;
+    font-weight:600;
+    color:#1e3a8a;
+}
+
+.out-number{
+    color:#f97316;
+    min-width:52px;
+}
+
+.center{
+    flex:1;
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    border-radius:30px;
+}
+
+.track{
+    position:absolute;
+    inset:auto 0 0 0;
+    height:42%;
+    background:linear-gradient(rgba(249,115,22,.15) 2px,transparent 2px);
+    background-size:100% 54px;
+    opacity:.4;
+}
+
+.bars{
+    position:absolute;
+    bottom:80px;
+    right:70px;
+    display:flex;
+    align-items:flex-end;
+    gap:18px;
+    opacity:.15;
+}
+
+.bar{width:50px;background:#1e3a8a;}
+.bar:nth-child(1){height:90px;}
+.bar:nth-child(2){height:140px;}
+.bar:nth-child(3){height:115px;}
+.bar:nth-child(4){height:180px;}
+.bar:nth-child(5){height:260px;}
+.bar:nth-child(6){height:320px;}
+
+.arrow-line{
+    position:absolute;
+    left:6%;
+    bottom:18%;
+    width:60%;
+    height:6px;
+    background:linear-gradient(90deg,transparent,rgba(249,115,22,.4));
+    transform:rotate(-18deg);
+    border-radius:999px;
+}
+
+.board{
+    width:860px;
+    text-align:center;
+    position:relative;
+    z-index:5;
+}
+
+.theme-head{
+    font-size:52px;
+    font-weight:700;
+    line-height:1.2;
+    margin-bottom:22px;
+    color: #1e3a8a;
+    text-shadow:0 4px 12px rgba(255,255,255,.8);
+}
+
+.theme-head span{color:#f97316;}
+
+.board-top{
+    display:inline-block;
+    background:#f97316;
+    color:#ffffff;
+    padding:8px 44px;
+    border-radius:999px;
+    font-size:28px;
+    font-weight:700;
+    margin-bottom:18px;
+    box-shadow:0 8px 20px rgba(249,115,22,0.3);
+}
+
+.word-box{
+    min-height:380px;
+    border-radius:36px;
+    background:rgba(255,255,255,0.95);
+    border:6px solid #1e3a8a;
+    box-shadow:0 20px 50px rgba(30,58,138,.15), inset 0 0 20px rgba(0,0,0,.02);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    overflow:hidden;
+    padding:24px;
+    backdrop-filter: blur(4px);
+}
+
+.word-box::before{
+    content:"";
+    position:absolute;
+    inset:-40%;
+    background:radial-gradient(circle,rgba(249,115,22,.1),transparent 55%);
+    animation:shine 6s linear infinite;
+}
+
+@keyframes shine{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+}
+
+.stock-info{
+    position:relative;
+    z-index:3;
+    text-align:center;
+}
+
+.word{
+    color:#f97316;
+    font-size:145px;
+    font-weight:900;
+    line-height: 1;
+    text-shadow:0 4px 0 #1e3a8a, 0 10px 25px rgba(249,115,22,.2);
+}
+
+.company-name{
+    color:#1e3a8a;
+    font-size:32px;
+    font-weight:700;
+    margin-top:16px;
+    line-height:1.3;
+}
+
+.company-desc{
+    color:#555;
+    font-size:24px;
+    font-weight:400;
+    line-height:1.5;
+    margin-top:12px;
+    max-width:760px;
+}
+
+.pop{animation:pop .12s linear;}
+
+@keyframes pop{
+    0%{transform:scale(1);}
+    50%{transform:scale(1.13);}
+    100%{transform:scale(1);}
+}
+
+.button-wrap{
+    margin-top:28px;
+    display:flex;
+    gap:22px;
+    justify-content:center;
+    flex-wrap:wrap;
+}
+
+button{
+    border:none;
+    padding:12px 76px;
+    border-radius:999px;
+    background:#f97316;
+    color:#ffffff;
+    font-size:40px;
+    font-weight:700;
+    font-family: 'Prompt', sans-serif;
+    cursor:pointer;
+    box-shadow:0 10px 0 #c2410c, 0 18px 35px rgba(249,115,22,.3);
+    transition:.15s;
+}
+
+button:hover{transform:translateY(-4px);}
+button:active{transform:translateY(2px);}
+button:disabled{opacity:.6;cursor:not-allowed;}
+
+.reset-btn{
+    background:#ffffff !important;
+    color:#1e3a8a !important;
+    border: 3px solid #1e3a8a !important;
+    box-shadow:0 10px 0 #cbd5e1, 0 18px 35px rgba(30,58,138,.1) !important;
+}
+
+canvas{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:999;
+}
+
+@media(max-width:900px){
+    body{overflow:auto;}
+    .main{flex-direction:column;height:auto;}
+    .sidebar{width:100%;height:260px;}
+    .word{font-size:92px;}
+    .theme-head{font-size:42px;}
+    .company-name{font-size:24px;}
+    .company-desc{font-size:20px;}
+    button{font-size:34px;padding:8px 44px;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <div class="event-title">
+        <div class="client-line">Client First</div>
+        <div class="first-line">DAY</div>
+    </div>
+</div>
+
+<div class="main">
+
+    <div class="sidebar">
+        <div class="out-header">OUT LIST</div>
+        <div class="out-list" id="history"></div>
+    </div>
+
+    <div class="center">
+
+        <div class="track"></div>
+
+        <div class="bars">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+
+        <div class="arrow-line"></div>
+
+        <div class="board">
+
+            <div class="theme-head">
+                <span>Client First Day</span>
+            </div>
+
+            <div class="board-top">
+                RANDOM STOCK PICKER
+            </div>
+
+            <div class="word-box">
+                <div class="stock-info">
+                    <div class="word" id="current">-</div>
+                    <div class="company-name" id="companyName"></div>
+                    <div class="company-desc" id="companyDesc"></div>
+                </div>
+            </div>
+
+            <div class="button-wrap">
+                <button onclick="draw()" id="btn">🎲 สุ่มคำ</button>
+                <button onclick="resetGame()" class="reset-btn">🔄 เริ่มใหม่</button>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<canvas id="confetti"></canvas>
+
+<script>
+const stocks = [
+{code:"ADVANC", name:"บริษัท แอดวานซ์ อินโฟร์ เซอร์วิส จำกัด (มหาชน)", desc:""},
+{code:"AOT", name:"บริษัท ท่าอากาศยานไทย จำกัด (มหาชน)", desc:""},
+{code:"AWC", name:"บริษัท แอสเสท เวิรด์ คอร์ป จำกัด (มหาชน)", desc:""},
+{code:"BANPU", name:"บริษัท บ้านปู จำกัด (มหาชน)", desc:""},
+{code:"BBL", name:"ธนาคารกรุงเทพ จำกัด (มหาชน)", desc:""},
+{code:"BCP", name:"บริษัท บางจาก คอร์ปอเรชั่น จำกัด (มหาชน)", desc:""},
+{code:"BDMS", name:"บริษัท กรุงเทพดุสิตเวชการ จำกัด(มหาชน)", desc:""},
+{code:"BEM", name:"บริษัท ทางด่วนและรถไฟฟ้ากรุงเทพ จำกัด (มหาชน)", desc:""},
+{code:"BH", name:"บริษัท โรงพยาบาลบำรุงราษฎร์ จำกัด (มหาชน)", desc:""},
+{code:"BJC", name:"บริษัท เบอร์ลี่ ยุคเกอร์ จำกัด (มหาชน)", desc:""},
+{code:"CCET", name:"บริษัท แคล-คอมพ์ อีเล็คโทรนิคส์ (ประเทศไทย) จำกัด (มหาชน)", desc:""},
+{code:"COM7", name:"บริษัท คอมเซเว่น จำกัด (มหาชน)", desc:""},
+{code:"CPALL", name:"บริษัท ซีพี ออลล์ จำกัด (มหาชน)", desc:""},
+{code:"CPF", name:"บริษัท เจริญโภคภัณฑ์อาหาร จำกัด (มหาชน)", desc:""},
+{code:"CPN", name:"บริษัท เซ็นทรัลพัฒนา จำกัด (มหาชน)", desc:""},
+{code:"CRC", name:"บริษัท เซ็นทรัล รีเทล คอร์ปอเรชั่น จำกัด (มหาชน)", desc:""},
+{code:"DELTA", name:"บริษัทเดลต้า อีเลคโทรนิคส์ (ประเทศไทย) จำกัด (มหาชน)", desc:""},
+{code:"EGCO", name:"บริษัท ผลิตไฟฟ้า จำกัด (มหาชน)", desc:""},
+{code:"GPSC", name:"บริษัท โกลบอล เพาเวอร์ ซินเนอร์ยี่ จำกัด (มหาชน)", desc:""},
+{code:"GULF", name:"บริษัท กัลฟ์ ดีเวลลอปเมนท์ จำกัด (มหาชน)", desc:""},
+{code:"HMPRO", name:"บริษัท โฮม โปรดักส์ เซ็นเตอร์ จำกัด (มหาชน)", desc:""},
+{code:"IVL", name:"บริษัท อินโดรามา เวนเจอร์ส จำกัด (มหาชน)", desc:""},
+{code:"KBANK", name:"ธนาคารกสิกรไทย จำกัด (มหาชน)", desc:""},
+{code:"KKP", name:"ธนาคารเกียรตินาคินภัทร จำกัด (มหาชน)", desc:""},
+{code:"KTB", name:"ธนาคารกรุงไทย จำกัด (มหาชน)", desc:""},
+{code:"KTC", name:"บริษัท บัตรกรุงไทย จำกัด (มหาชน)", desc:""},
+{code:"LH", name:"บริษัทแลนด์แอนด์เฮ้าส์ จำกัด (มหาชน)", desc:""},
+{code:"MINT", name:"บริษัท ไมเนอร์ อินเตอร์เนชั่นแนล จำกัด (มหาชน)", desc:""},
+{code:"MRDIYT", name:"บริษัท มิสเตอร์. ดี.ไอ.วาย. โฮลดิ้ง (ประเทศไทย) จำกัด (มหาชน)", desc:""},
+{code:"MTC", name:"บริษัท เมืองไทย แคปปิตอล จำกัด (มหาชน)", desc:""},
+{code:"OR", name:"บริษัท ปตท. น้ำมันและการค้าปลีก จำกัด (มหาชน)", desc:""},
+{code:"OSP", name:"บริษัท โอสถสภา จำกัด (มหาชน)", desc:""},
+{code:"PTT", name:"บริษัท ปตท. จำกัด (มหาชน)", desc:""},
+{code:"PTTEP", name:"บริษัท ปตท.สำรวจและผลิตปิโตรเลียม จำกัด (มหาชน)", desc:""},
+{code:"PTTGC", name:"บริษัท พีทีที โกลบอล เคมิคอล จำกัด (มหาชน)", desc:""},
+{code:"RATCH", name:"บริษัท ราช กรุ๊ป จำกัด (มหาชน)", desc:""},
+{code:"SCB", name:"บริษัท เอสซีบี เอกซ์ จำกัด (มหาชน)", desc:""},
+{code:"SCC", name:"บริษัท ปูนซิเมนต์ไทย จำกัด (มหาชน)", desc:""},
+{code:"SCGP", name:"บริษัท เอสซีจี แพคเกจจิ้ง จำกัด (มหาชน)", desc:""},
+{code:"TCAP", name:"บริษัท ทุนธนชาต จำกัด (มหาชน)", desc:""},
+{code:"TFG", name:"บริษัท ไทยฟู้ดส์ กรุ๊ป จำกัด (มหาชน)", desc:""},
+{code:"THAI", name:"บริษัท การบินไทย จำกัด (มหาชน)", desc:""},
+{code:"TIDLOR", name:"บริษัท ติดล้อ โฮลดิ้งส์ จำกัด (มหาชน)", desc:""},
+{code:"TISCO", name:"บริษัท ทิสโก้ไฟแนนเชียลกรุ๊ป จำกัด (มหาชน)", desc:""},
+{code:"TLI", name:"บริษัท ไทยประกันชีวิต จำกัด (มหาชน)", desc:""},
+{code:"TOP", name:"บริษัท ไทยออยล์ จำกัด (มหาชน)", desc:""},
+{code:"TRUE", name:"บริษัท ทรู คอร์ปอเรชั่น จำกัด (มหาชน)", desc:""},
+{code:"TTB", name:"ธนาคารทหารไทยธนชาต จำกัด (มหาชน)", desc:""},
+{code:"TU", name:"บริษัท ไทยยูเนี่ยน กรุ๊ป จำกัด (มหาชน)", desc:""},
+{code:"WHA", name:"บริษัท ดับบลิวเอชเอ คอร์ปอเรชั่น จำกัด (มหาชน)", desc:""}
+];
+
+let remaining = [...stocks];
+let used = [];
+
+function draw(){
+    if(remaining.length === 0){
+        alert("หมดแล้วทุกบริษัท!");
+        return;
+    }
+
+    const btn = document.getElementById('btn');
+    const display = document.getElementById('current');
+    const companyName = document.getElementById('companyName');
+    const companyDesc = document.getElementById('companyDesc');
+
+    btn.disabled = true;
+    companyName.innerText = "";
+    companyDesc.innerText = "";
+
+    let spinCount = 0;
+
+    const spin = setInterval(()=>{
+        const randomStock = remaining[Math.floor(Math.random()*remaining.length)];
+        display.innerText = randomStock.code;
+
+        display.classList.remove('pop');
+        void display.offsetWidth;
+        display.classList.add('pop');
+
+        spinCount++;
+
+        if(spinCount > 24){
+            clearInterval(spin);
+
+            const index = Math.floor(Math.random()*remaining.length);
+            const picked = remaining.splice(index,1)[0];
+
+            used.push(picked);
+
+            display.innerText = picked.code;
+            companyName.innerText = picked.name;
+            companyDesc.innerText = picked.desc;
+
+            renderHistory();
+            launchConfetti();
+
+            btn.disabled = false;
+        }
+    },80);
+}
+
+function resetGame(){
+    remaining = [...stocks];
+    used = [];
+
+    document.getElementById('current').innerText = '-';
+    document.getElementById('companyName').innerText = '';
+    document.getElementById('companyDesc').innerText = '';
+    document.getElementById('history').innerHTML = '';
+
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    pieces = [];
+
+    if(confettiAnimation){
+        cancelAnimationFrame(confettiAnimation);
+        confettiAnimation = null;
+    }
+
+    document.getElementById('btn').disabled = false;
+}
+
+function renderHistory(){
+    const history = document.getElementById('history');
+    history.innerHTML = used.map((w,i)=>`
+        <div class="out-item">
+            <div class="out-number">${String(i+1).padStart(2,'0')}</div>
+            <div>${w.code}</div>
+        </div>
+    `).join('');
+}
+
+const canvas = document.getElementById('confetti');
+const ctx = canvas.getContext('2d');
+
+function resize(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+
+resize();
+window.addEventListener('resize',resize);
+
+let pieces = [];
+let confettiAnimation = null;
+
+function launchConfetti(){
+    pieces = [];
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    if(confettiAnimation){
+        cancelAnimationFrame(confettiAnimation);
+        confettiAnimation = null;
+    }
+
+    for(let i=0;i<160;i++){
+        const colors = ["#f97316","#1e3a8a","#ffffff","#38bdf8"];
+
+        pieces.push({
+            x:canvas.width/2,
+            y:canvas.height/2,
+            vx:(Math.random()-.5)*15,
+            vy:(Math.random()-.8)*15,
+            size:Math.random()*8+4,
+            life:70,
+            color:colors[Math.floor(Math.random()*colors.length)]
+        });
+    }
+
+    animateConfetti();
+}
+
+function animateConfetti(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    pieces.forEach(p=>{
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.28;
+        p.life--;
+
+        ctx.fillStyle = p.color;
+        ctx.fillRect(p.x,p.y,p.size,p.size);
+    });
+
+    pieces = pieces.filter(p=>p.life>0);
+
+    if(pieces.length > 0){
+        confettiAnimation = requestAnimationFrame(animateConfetti);
+    }else{
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        confettiAnimation = null;
+    }
+}
+</script>
+
+</body>
+</html>
